@@ -58,12 +58,41 @@ def cal(str):
         r=float(l[ind-1]) ** float(l[ind+1])
         print("The result is:",r)
 
+def files():
+    def num_files():
+        ctr=0
+        di=input('Enter directory path: ')
+        num_inp=input('Which file-type would you like to count?\n>>> ').lower()
+
+        if num_inp=='all':
+            for filename in os.listdir(di):
+                f= os.path.join(di,filename)
+                if os.path.isfile(f):
+                    ctr+=1
+            print("Number of files:",ctr)
+        else:
+            for filename in os.listdir(di):
+                f= os.path.join(di,filename)
+                if os.path.isfile(f):
+                    if f.endswith(num_inp):
+                        ctr+=1
+            print(f"Number of {num_inp} files:",ctr)
+    
+    while True:
+        files_inp= input('>> ').lower()
+        if files_inp== 'num' or files_inp=='count':
+            num_files()
+        elif files_inp=='exit' or files_inp=='main':
+            break
+
+
 greet()
 
 operands=['+', '-', '*', '/', '^', '**']
 
 while True:
-    inp=input().lower()
+    inp=input('> ').lower()
+
     if inp=='time?' or inp=='time':
         currtime()
     elif inp=='thanks' or inp=='ty':
@@ -72,8 +101,11 @@ while True:
         batt()
     elif any(op in inp for op in operands):#checks for operands in inp
         cal(inp)
-
+    elif inp=='check files' or inp=='files':
+        files()
 
     elif inp=='exit' or inp=='quit':
         print("Have a good day!")
         exit()
+    else:
+        print('Unrecognised command. Try again...')
