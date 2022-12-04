@@ -1,5 +1,7 @@
 import os
 from datetime import datetime
+import pyautogui as pa
+import time
 def greet():
     timestr=datetime.now().strftime("%H:%M:%S")
     time= int(timestr[:2])
@@ -59,19 +61,23 @@ def cal(str):
         print("The result is:",r)
 
 def spotify(): #plays spotify when it is the next window
-    import pyautogui as pa
-    import os
-    import time
-    os.system('spotify')
-    time.sleep(2)
-    pa.press('space')
-    pa.hotkey('alt','tab')
+    global spot_flag
+    if spot_flag==0:
+        os.system('spotify')
+        time.sleep(2)
+        pa.press('space')
+        pa.hotkey('alt','tab')
+        spot_flag=1
 
     while True:
-        spot_inp=input('>> ')
+        spot_inp=input('>> ').lower()
         if spot_inp=='next' or inp=='skip':
             pa.hotkey('alt','tab')
             pa.hotkey('ctrl','right')
+            pa.hotkey('alt','tab')
+        elif spot_inp=='pause' or spot_inp=='play' or spot_inp=='p':
+            pa.hotkey('alt','tab')
+            pa.press('space')
             pa.hotkey('alt','tab')
         elif spot_inp=='prev':
             pa.hotkey('alt','tab')
@@ -104,11 +110,29 @@ def files():
                     if f.endswith(num_inp):
                         ctr+=1
             print(f"Number of {num_inp} files:",ctr)
+    def del_files():
+        print('''1. Delete based on filename or file-type(Eg:".py", ".jpg")
+0.Exit \n''')
+        c=int(input("Enter your choice: "))
+        if c==1:
+            di=input('Enter directory path: ')
+            ctr=0
+            sub=input('Enter file-type(Eg:".py", ".jpg): ').lower()
+            for filename in os.listdir(di):
+                f= os.path.join(di,filename)
+                if os.path.isfile(f):
+                    if f.endswith(sub):
+                        os.remove(f)
+                        ctr+=1
+            print(ctr, "files have been deleted.")
     
     while True:
         files_inp= input('>> ').lower()
         if files_inp== 'num' or files_inp=='count':
             num_files()
+        elif files_inp=='del' or files_inp=='delete':
+            del_files()
+
         elif files_inp=='exit' or files_inp=='main':
             break
         else:
@@ -118,6 +142,7 @@ def files():
 greet()
 
 operands=['+', '-', '*', '/', '^', '**']
+spot_flag=0
 
 while True:
     inp=input('> ').lower()
@@ -134,6 +159,8 @@ while True:
         files()
     elif inp=='music':
         spotify()
+    elif inp=='term' or inp=='terminal':
+        pa.hotkey('win','x'); pa.press('i')
 
     elif inp=='exit' or inp=='quit':
         print("Have a good day!")
