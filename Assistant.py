@@ -60,17 +60,18 @@ def cal(str):
 
 greet()
 
+operands=['+', '-', '*', '/', '^', '**']
+
 while True:
     inp=input().lower()
     if inp=='time?' or inp=='time':
         currtime()
     elif inp=='thanks' or inp=='ty':
         print("No problem!")
-    elif inp=='battery?' or inp=='battery' or inp=='bat':
+    elif inp=='battery?' or inp=='battery' or inp=='bat':#battery status
         batt()
-    elif inp=='calc' or inp=='calculate':
-        s=input()
-        cal(s)
+    elif any(op in inp for op in operands):#checks for operands in inp
+        cal(inp)
 
 
     elif inp=='exit' or inp=='quit':
