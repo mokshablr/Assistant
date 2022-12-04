@@ -58,6 +58,33 @@ def cal(str):
         r=float(l[ind-1]) ** float(l[ind+1])
         print("The result is:",r)
 
+def spotify(): #plays spotify when it is the next window
+    import pyautogui as pa
+    import os
+    import time
+    os.system('spotify')
+    time.sleep(2)
+    pa.press('space')
+    pa.hotkey('alt','tab')
+
+    while True:
+        spot_inp=input('>> ')
+        if spot_inp=='next' or inp=='skip':
+            pa.hotkey('alt','tab')
+            pa.hotkey('ctrl','right')
+            pa.hotkey('alt','tab')
+        elif spot_inp=='prev':
+            pa.hotkey('alt','tab')
+            pa.hotkey('ctrl', 'left')
+            pa.hotkey('alt','tab')
+        elif spot_inp=='shuffle' or spot_inp=='mix':
+            pa.hotkey('alt','tab')
+            pa.hotkey('ctrl', 's')
+            pa.hotkey('alt','tab')
+        elif spot_inp=='main' or spot_inp=='exit':
+            break
+    
+
 def files():
     def num_files():
         ctr=0
@@ -84,6 +111,8 @@ def files():
             num_files()
         elif files_inp=='exit' or files_inp=='main':
             break
+        else:
+            print('Unrecognised command. Try again...')
 
 
 greet()
@@ -103,6 +132,8 @@ while True:
         cal(inp)
     elif inp=='check files' or inp=='files':
         files()
+    elif inp=='music':
+        spotify()
 
     elif inp=='exit' or inp=='quit':
         print("Have a good day!")
